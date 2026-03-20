@@ -71,7 +71,7 @@ export default async function handler(req, res) {
       return res.status(504).json({ error: 'Request to OpenAI timed out' });
     }
     console.error('[api/chat] Error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error', detail: err?.message, type: err?.name });
   } finally {
     clearTimeout(timeout);
   }
