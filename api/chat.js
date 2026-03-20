@@ -7,7 +7,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { systemPrompt, userMessage, model = 'gpt-4o-mini', maxTokens = 512 } = req.body;
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON body' }); }
+  }
+  if (!body || typeof body !== 'object') {
+    return res.status(400).json({ error: 'Request body is missing or not JSON' });
+  }
+
+  const { systemPrompt, userMessage, model = 'gpt-4o-mini', maxTokens = 512 } = body;
 
   if (!userMessage || typeof userMessage !== 'string') {
     return res.status(400).json({ error: 'userMessage is required' });
@@ -17,6 +25,9 @@ export default async function handler(req, res) {
   if (!apiKey) {
     return res.status(500).json({ error: 'Server misconfiguration: missing API key' });
   }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
 
   try {
     const messages = [];
@@ -39,6 +50,7 @@ export default async function handler(req, res) {
         max_tokens: Math.min(Number(maxTokens) || 512, 2048),
         temperature: 0.7,
       }),
+      signal: controller.signal,
     });
 
     if (!openaiRes.ok) {
@@ -55,7 +67,12 @@ export default async function handler(req, res) {
       usage: data.usage,
     });
   } catch (err) {
+    if (err.name === 'AbortError') {
+      return res.status(504).json({ error: 'Request to OpenAI timed out' });
+    }
     console.error('[api/chat] Error:', err);
     return res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    clearTimeout(timeout);
   }
 }
