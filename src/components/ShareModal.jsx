@@ -101,21 +101,34 @@ export default function ShareModal() {
     setActiveTab('create')
   }, [closeShareModal])
 
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') handleClose()
+  }, [handleClose])
+
   if (!showShareModal) return null
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm animate-fadeIn"
       onClick={(e) => e.target === e.currentTarget && handleClose()}
+      onKeyDown={handleKeyDown}
+      role="presentation"
     >
-      <div className="modal-box bg-terminal-surface border border-terminal-border rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl shadow-black">
+      <div
+        className="modal-box bg-terminal-surface border border-terminal-border rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl shadow-black"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Challenge Builder"
+      >
         <div className="modal-header flex items-center justify-between px-5 py-3 border-b border-terminal-border bg-terminal-bg rounded-t-lg">
           <div className="flex items-center gap-3">
-            <span className="text-terminal-cyan font-mono font-bold text-sm">⬡ CHALLENGE BUILDER</span>
-            <div className="flex gap-1">
+            <span className="text-terminal-cyan font-mono font-bold text-sm"> CHALLENGE BUILDER</span>
+            <div className="flex gap-1" role="tablist" aria-label="Challenge builder tabs">
               {['create', 'share'].map((tab) => (
                 <button
                   key={tab}
+                  role="tab"
+                  aria-selected={activeTab === tab}
                   onClick={() => setActiveTab(tab)}
                   className={`font-mono text-xs px-3 py-1 rounded transition-colors ${
                     activeTab === tab
@@ -131,6 +144,7 @@ export default function ShareModal() {
           <button
             onClick={handleClose}
             className="text-terminal-muted hover:text-terminal-text font-mono text-lg leading-none transition-colors"
+            aria-label="Close modal"
           >
             ✕
           </button>
@@ -221,7 +235,7 @@ export default function ShareModal() {
               </Field>
 
               <div className="border border-terminal-border rounded p-4 space-y-3 bg-terminal-bg">
-                <p className="font-mono text-xs text-terminal-cyan opacity-70 uppercase tracking-widest">Win Condition</p>
+                <p className="font-mono text-xs text-terminal-cyan uppercase tracking-widest">Win Condition</p>
 
                 <Field label="Type">
                   <select
@@ -291,10 +305,10 @@ export default function ShareModal() {
               {shareURL ? (
                 <>
                   <div className="p-4 bg-terminal-bg border border-terminal-green border-opacity-30 rounded">
-                    <p className="font-mono text-xs text-terminal-green opacity-70 mb-2">
+                    <p className="font-mono text-xs text-terminal-green mb-2">
                       ✓ Challenge URL generated:
                     </p>
-                    <p className="font-mono text-xs text-terminal-text break-all leading-relaxed opacity-80">
+                    <p className="font-mono text-xs text-terminal-text break-all leading-relaxed">
                       {shareURL}
                     </p>
                   </div>
@@ -315,15 +329,15 @@ export default function ShareModal() {
                   </div>
 
                   <div className="p-3 bg-terminal-bg border border-terminal-border rounded">
-                    <p className="font-mono text-xs text-terminal-muted opacity-60 mb-1">Encoded payload:</p>
-                    <p className="font-mono text-xs text-terminal-muted opacity-40 break-all">
+                    <p className="font-mono text-xs text-terminal-muted mb-1">Encoded payload:</p>
+                    <p className="font-mono text-xs text-terminal-muted break-all">
                       {encodeLevel({ ...buildLevelObject() })}
                     </p>
                   </div>
                 </>
               ) : (
                 <div className="text-center py-8">
-                  <p className="font-mono text-terminal-muted opacity-60">
+                  <p className="font-mono text-terminal-muted">
                     Fill out the Create tab and generate a URL first.
                   </p>
                 </div>
@@ -355,7 +369,7 @@ export default function ShareModal() {
 function Field({ label, required, children }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-mono text-xs text-terminal-muted opacity-70">
+      <label className="font-mono text-xs text-terminal-muted">
         {label}{required && <span className="text-terminal-red ml-1">*</span>}
       </label>
       {children}

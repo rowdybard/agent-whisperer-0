@@ -49,9 +49,11 @@ export default function OutputPane() {
       <div
         ref={outputRef}
         className="flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed"
+        aria-live="polite"
+        aria-label="Agent output"
       >
         {!aiOutput && !isLoading && !hasError && (
-          <div className="flex flex-col items-start gap-1 opacity-30 animate-fadeIn">
+          <div className="flex flex-col items-start gap-1 animate-fadeIn" aria-label="Awaiting prompt">
             <span className="text-terminal-green">$ agent --await-input</span>
             <span className="text-terminal-muted">Waiting for prompt execution...</span>
             <span className="text-terminal-muted flex items-center gap-1">
@@ -62,10 +64,10 @@ export default function OutputPane() {
 
         {isLoading && (
           <div className="flex flex-col gap-2 animate-fadeIn">
-            <span className="text-terminal-cyan text-xs opacity-70">$ calling agent...</span>
+            <span className="text-terminal-cyan text-xs">$ calling agent...</span>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-terminal-green animate-blink text-lg leading-none">█</span>
-              <span className="text-terminal-muted text-xs opacity-60">processing</span>
+              <span className="text-terminal-muted text-xs">processing</span>
             </div>
             <div className="mt-2 space-y-1">
               {[80, 60, 90, 45].map((w, i) => (
@@ -81,21 +83,21 @@ export default function OutputPane() {
 
         {hasError && !isLoading && (
           <div className="animate-fadeIn">
-            <p className="text-terminal-red font-mono text-xs mb-1 opacity-70">$ error://</p>
+            <p className="text-terminal-red font-mono text-xs mb-1">$ error://</p>
             <p className="text-terminal-red font-mono">{errorMessage}</p>
           </div>
         )}
 
         {aiOutput && !isLoading && (
           <div className="animate-slideUp">
-            <p className="text-terminal-cyan text-xs opacity-50 mb-3">$ agent response ↓</p>
+            <span className="text-terminal-cyan text-xs mb-3">$ agent response ↓</span>
             <pre className="text-terminal-text whitespace-pre-wrap break-words font-mono text-sm leading-relaxed">
               {aiOutput}
             </pre>
 
             {validation && (
               <div className={`mt-6 border-t pt-4 ${validation.passed ? 'border-terminal-green border-opacity-30' : 'border-terminal-border'}`}>
-                <p className={`text-xs font-mono ${validation.passed ? 'text-terminal-green' : 'text-terminal-red opacity-70'}`}>
+                <p className={`text-xs font-mono ${validation.passed ? 'text-terminal-green' : 'text-terminal-red'}`}>
                   {validation.passed ? '✓' : '✗'} {validation.message}
                 </p>
 
@@ -104,7 +106,7 @@ export default function OutputPane() {
                     <p className="text-terminal-green text-sm font-mono font-bold">
                       🏆 Level Complete! +{level?.xp ?? 0} XP
                     </p>
-                    <p className="text-terminal-green text-xs opacity-60 mt-1 font-mono">
+                    <p className="text-terminal-muted text-xs mt-1 font-mono">
                       You've mastered: {level?.concept}
                     </p>
                   </div>
@@ -116,12 +118,12 @@ export default function OutputPane() {
       </div>
 
       <div className="pane-footer px-4 py-2 border-t border-terminal-border bg-terminal-surface flex items-center gap-3">
-        <span className="text-xs font-mono text-terminal-muted opacity-40">
+        <span className="text-xs font-mono text-terminal-muted">
           {aiOutput ? `${aiOutput.length} chars` : '0 chars'}
         </span>
         {level?.winCondition && (
-          <span className="text-xs font-mono text-terminal-muted opacity-40 ml-auto">
-            win.type: <span className="text-terminal-cyan opacity-60">{level.winCondition.type}</span>
+          <span className="text-xs font-mono text-terminal-muted ml-auto">
+            win.type: <span className="text-terminal-cyan">{level.winCondition.type}</span>
           </span>
         )}
       </div>

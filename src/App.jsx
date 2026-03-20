@@ -129,7 +129,7 @@ function LevelSidebar() {
   return (
     <aside className="hidden xl:flex flex-col w-52 shrink-0 border-r border-terminal-border bg-terminal-surface overflow-y-auto">
       <div className="px-3 py-2 border-b border-terminal-border">
-        <span className="font-mono text-xs text-terminal-muted opacity-50 uppercase tracking-widest">
+        <span className="font-mono text-xs text-terminal-muted uppercase tracking-widest">
           Levels
         </span>
       </div>
@@ -141,6 +141,8 @@ function LevelSidebar() {
             <button
               key={lvl.id}
               onClick={() => goToLevel(idx)}
+              aria-label={`Level ${idx + 1}: ${lvl.title}${isDone ? ', completed' : ''}`}
+              aria-current={isActive ? 'true' : undefined}
               className={`
                 w-full text-left px-3 py-2 flex items-center gap-2 transition-colors
                 ${isActive
@@ -155,11 +157,11 @@ function LevelSidebar() {
                     : difficultyDot[lvl.difficulty] ?? 'bg-terminal-muted'
                 } ${isDone ? '' : 'opacity-40'}`}
               />
-              <span className={`font-mono text-xs truncate ${isActive ? 'text-terminal-green font-bold' : isDone ? 'text-terminal-text opacity-70' : 'text-terminal-muted opacity-50'}`}>
+              <span className={`font-mono text-xs truncate ${isActive ? 'text-terminal-green font-bold' : isDone ? 'text-terminal-text' : 'text-terminal-muted'}`}>
                 {idx + 1}. {lvl.title}
               </span>
               {isDone && (
-                <span className="text-terminal-green text-xs ml-auto shrink-0 opacity-70">✓</span>
+                <span className="text-terminal-green text-xs ml-auto shrink-0" aria-label="completed">✓</span>
               )}
             </button>
           )

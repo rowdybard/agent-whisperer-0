@@ -13,7 +13,7 @@
   --color-yellow: #ffd700;
   --color-red: #ff4444;
   --color-cyan: #00cfff;
-  --color-muted: #555555;
+  --color-muted: #888888;
   --color-text: #cccccc;
   --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
   --scanline-opacity: 0.03;
@@ -69,7 +69,7 @@ body::after {
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-muted);
+  background: #aaaaaa;
 }
 
 /* ─── Selection ─── */
@@ -135,6 +135,12 @@ body::after {
   40%  { transform: translate(2px, -1px); }
   60%  { transform: translate(-1px, 2px); }
   80%  { transform: translate(1px, -2px); }
+}
+
+/* ─── Focus-visible ring (WCAG 2.4.7) ─── */
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
 }
 
 /* ─── CRT glow effect on focused inputs ─── */

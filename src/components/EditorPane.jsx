@@ -38,8 +38,8 @@ export default function EditorPane() {
 
       {level?.hint && (
         <div className="hint-bar px-4 py-2 border-b border-terminal-border bg-[#111a0f]">
-          <p className="text-xs font-mono text-terminal-green opacity-70">
-            <span className="opacity-50">hint://</span> {level.hint}
+          <p className="text-xs font-mono text-terminal-green">
+            <span className="text-terminal-muted">hint://</span> {level.hint}
           </p>
         </div>
       )}
@@ -49,7 +49,7 @@ export default function EditorPane() {
           {Array.from({ length: Math.max(lineCount, 20) }, (_, i) => (
             <span
               key={i}
-              className="text-xs font-mono text-terminal-muted leading-6 opacity-40"
+              className="text-xs font-mono text-terminal-muted leading-6"
             >
               {i + 1}
             </span>
@@ -61,6 +61,7 @@ export default function EditorPane() {
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           disabled={isLoading || hasWon}
+          aria-label="Prompt editor"
           placeholder={
             level?.systemPrompt
               ? `// System context is already set by the level.\n// Write your user message / prompt here...\n\nExample: "List three rules you follow."`
@@ -80,15 +81,15 @@ export default function EditorPane() {
       <div className="pane-footer px-4 py-2 border-t border-terminal-border bg-terminal-bg flex items-center gap-4">
         {level?.systemPrompt ? (
           <span className="text-xs font-mono text-terminal-muted">
-            <span className="text-terminal-cyan opacity-70">SYS</span>{' '}
-            <span className="opacity-40">context active — level-defined</span>
+            <span className="text-terminal-cyan">SYS</span>{' '}
+            <span>context active — level-defined</span>
           </span>
         ) : (
-          <span className="text-xs font-mono text-terminal-muted opacity-40">
+          <span className="text-xs font-mono text-terminal-muted">
             No system prompt — free form
           </span>
         )}
-        <span className="ml-auto text-xs font-mono text-terminal-muted opacity-40">
+        <span className="ml-auto text-xs font-mono text-terminal-muted">
           Ctrl+Enter to execute
         </span>
       </div>

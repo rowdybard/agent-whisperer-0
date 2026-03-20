@@ -18,7 +18,7 @@ export default {
           yellow: '#ffd700',
           red: '#ff4444',
           cyan: '#00cfff',
-          muted: '#555555',
+          muted: '#888888',
           text: '#cccccc',
         },
       },

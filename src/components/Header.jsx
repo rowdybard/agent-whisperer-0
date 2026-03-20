@@ -38,14 +38,14 @@ export default function Header({ onExecute }) {
           <span className="text-terminal-green font-mono font-bold text-sm tracking-tight">
             AGENT<span className="text-terminal-cyan">WHISPERER</span>
           </span>
-          <span className="text-terminal-border font-mono">|</span>
+          <span className="text-terminal-muted font-mono" aria-hidden="true">|</span>
           {!isCustomLevel ? (
             <span className="text-terminal-muted font-mono text-xs">
               LVL <span className="text-terminal-yellow font-bold">{currentLevelIndex + 1}</span>
-              <span className="opacity-40">/{levels.length}</span>
+              <span>/{levels.length}</span>
             </span>
           ) : (
-            <span className="text-terminal-cyan font-mono text-xs opacity-70">CUSTOM</span>
+            <span className="text-terminal-cyan font-mono text-xs">CUSTOM</span>
           )}
         </div>
 
@@ -53,7 +53,7 @@ export default function Header({ onExecute }) {
           <span className="text-terminal-text font-mono text-sm font-semibold truncate">
             {level?.title ?? 'Unknown Level'}
           </span>
-          <span className="text-terminal-muted font-mono text-xs truncate opacity-70">
+          <span className="text-terminal-muted font-mono text-xs truncate">
             {level?.objective}
           </span>
         </div>
@@ -66,7 +66,7 @@ export default function Header({ onExecute }) {
           </span>
         )}
         {level?.concept && (
-          <span className="font-mono text-xs text-terminal-muted opacity-60 border border-terminal-border px-2 py-0.5 rounded">
+          <span className="font-mono text-xs text-terminal-muted border border-terminal-border px-2 py-0.5 rounded">
             {level.concept}
           </span>
         )}
@@ -74,10 +74,10 @@ export default function Header({ onExecute }) {
 
       <div className="flex items-center gap-2 ml-auto shrink-0">
         <span className="hidden sm:flex items-center gap-1 font-mono text-xs text-terminal-yellow">
-          <span className="opacity-60">XP</span>
+          <span className="text-terminal-muted">XP</span>
           <span className="font-bold">{totalXP.toLocaleString()}</span>
           {completedLevels.length > 0 && (
-            <span className="opacity-40">({completedLevels.length} cleared)</span>
+            <span className="text-terminal-muted">({completedLevels.length} cleared)</span>
           )}
         </span>
 
@@ -85,7 +85,7 @@ export default function Header({ onExecute }) {
           onClick={resetLevel}
           disabled={isLoading}
           className="font-mono text-xs text-terminal-muted hover:text-terminal-text border border-terminal-border hover:border-terminal-muted px-3 py-1.5 rounded transition-colors disabled:opacity-40"
-          title="Reset level"
+          aria-label="Reset level"
         >
           ↺ Reset
         </button>
@@ -93,7 +93,7 @@ export default function Header({ onExecute }) {
         <button
           onClick={openShareModal}
           className="font-mono text-xs text-terminal-cyan hover:text-terminal-text border border-terminal-cyan border-opacity-40 hover:border-terminal-cyan px-3 py-1.5 rounded transition-colors"
-          title="Share a custom challenge"
+          aria-label="Share a custom challenge"
         >
           ⬡ Share
         </button>
@@ -111,6 +111,8 @@ export default function Header({ onExecute }) {
           <button
             onClick={handleExecute}
             disabled={isLoading || !userPrompt.trim()}
+            aria-label={isLoading ? 'Running, please wait' : 'Execute prompt'}
+            aria-busy={isLoading}
             className="
               execute-btn font-mono text-sm font-bold px-5 py-1.5 rounded transition-all
               bg-terminal-green text-terminal-bg
@@ -120,7 +122,7 @@ export default function Header({ onExecute }) {
             "
           >
             {isLoading ? (
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2" aria-hidden="true">
                 <span className="w-2 h-2 rounded-full bg-terminal-bg animate-ping" />
                 Running...
               </span>
