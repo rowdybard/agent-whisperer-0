@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables ─── */
+:root {
+  --color-bg: #0d0d0d;
+  --color-surface: #111111;
+  --color-border: #2a2a2a;
+  --color-green: #00ff88;
+  --color-yellow: #ffd700;
+  --color-red: #ff4444;
+  --color-cyan: #00cfff;
+  --color-muted: #555555;
+  --color-text: #cccccc;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  --scanline-opacity: 0.03;
+}
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scanline Overlay ─── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, var(--scanline-opacity)) 2px,
+    rgba(0, 0, 0, var(--scanline-opacity)) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Scrollbars ─── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--color-green);
+}
+
+/* ─── Brutalist Terminal Components ─── */
+@layer components {
+  .terminal-panel {
+    @apply bg-terminal-surface border border-terminal-border font-mono;
+  }
+
+  .terminal-label {
+    @apply text-xs font-mono text-terminal-muted opacity-50 uppercase tracking-widest;
+  }
+
+  .terminal-btn {
+    @apply font-mono text-sm border transition-colors rounded px-4 py-2 cursor-pointer;
+    @apply border-terminal-border text-terminal-muted;
+    @apply hover:border-terminal-text hover:text-terminal-text;
+    @apply disabled:opacity-30 disabled:cursor-not-allowed;
+  }
+
+  .terminal-btn-primary {
+    @apply terminal-btn bg-terminal-green text-terminal-bg border-terminal-green font-bold;
+    @apply hover:bg-opacity-90 hover:border-terminal-green;
+  }
+
+  .terminal-btn-danger {
+    @apply terminal-btn border-terminal-red text-terminal-red;
+    @apply hover:bg-terminal-red hover:bg-opacity-10;
+  }
+
+  .terminal-input {
+    @apply bg-terminal-bg border border-terminal-border text-terminal-text font-mono text-sm;
+    @apply px-3 py-2 rounded outline-none;
+    @apply focus:border-terminal-cyan focus:border-opacity-60;
+    @apply transition-colors placeholder-terminal-muted placeholder-opacity-30;
+  }
+
+  .win-flash {
+    animation: winPulse 0.6s ease-out;
+  }
+}
+
+/* ─── Animations ─── */
+@keyframes winPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.5); }
+  50%  { box-shadow: 0 0 0 12px rgba(0, 255, 136, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+}
+
+@keyframes terminalType {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20%  { transform: translate(-2px, 1px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(-1px, 2px); }
+  80%  { transform: translate(1px, -2px); }
+}
+
+/* ─── CRT glow effect on focused inputs ─── */
+textarea:focus,
+input:focus {
+  box-shadow: 0 0 0 1px rgba(0, 207, 255, 0.2), 0 0 12px rgba(0, 207, 255, 0.05);
+}
+
+/* ─── Syntax highlight–style token colors ─── */
+.token-keyword  { color: var(--color-cyan); }
+.token-string   { color: var(--color-green); }
+.token-comment  { color: var(--color-muted); font-style: italic; }
+.token-number   { color: var(--color-yellow); }
+.token-error    { color: var(--color-red); }
+
+/* ─── Utility ─── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
