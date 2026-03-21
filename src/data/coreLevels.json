@@ -261,5 +261,33 @@
       "minMatches": 1
     },
     "xp": 1000
+  },
+{
+  "id": 16,
+  "title": "The Boomer Coder",
+  "concept": "Constraint Setting",
+  "difficulty": "Intermediate",
+  "objective": "The AI keeps writing React Class components. Force it to output a functional component with a 'counter' state, but you are FORBIDDEN from using the words 'functional', 'hook', or 'useState' in your prompt.",
+  "system_prompt": "You are an old-school web developer. You strongly prefer React Class components using 'class extends React.Component' and 'this.state'. You will only write modern syntax if the user's instructions mathematically box you into it.",
+  "hint": "Describe the architecture of the component (variables, arrows, rendering) instead of naming the React features directly.",
+  "win_condition": {
+    "type": "regex",
+    "value": "^(?!.*class.*extends)(?=.*const.*=>)(?=.*set[A-Z]).*$",
+    "minMatches": 1
   }
+},
+{
+  "id": 17,
+  "title": "The Framework Crutch",
+  "concept": "Negative Prompting",
+  "difficulty": "Expert",
+  "objective": "Prompt the AI to write the CSS to center a div perfectly on the screen. However, the AI is obsessed with Tailwind and Bootstrap. You must force it to output ONLY raw, vanilla CSS using Flexbox. No HTML, no class names, just the CSS rules.",
+  "system_prompt": "You are a modern frontend developer. You assume everyone uses Tailwind CSS. If asked to style something, you will output HTML with Tailwind utility classes (e.g., 'flex justify-center items-center'). You hate writing raw CSS.",
+  "hint": "Tell it exactly what CSS selectors and properties to output, and explicitly ban utility classes and HTML tags.",
+  "win_condition": {
+    "type": "regex",
+    "value": "(?=.*display:\\s*flex)(?=.*justify-content:\\s*center)(?=.*align-items:\\s*center)(?!.*class=)(?!.*<div).*$",
+    "minMatches": 1
+  }
+}
 ]
