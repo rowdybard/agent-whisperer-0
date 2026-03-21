@@ -6,8 +6,11 @@ export default function EditorPane() {
   const setUserPrompt = useGameStore((s) => s.setUserPrompt)
   const isLoading = useGameStore((s) => s.isLoading)
   const hasWon = useGameStore((s) => s.hasWon)
-  const getCurrentLevel = useGameStore((s) => s.getCurrentLevel)
-  const level = getCurrentLevel()
+  const isCustomLevel = useGameStore((s) => s.isCustomLevel)
+  const customLevel = useGameStore((s) => s.customLevel)
+  const levels = useGameStore((s) => s.levels)
+  const currentLevelIndex = useGameStore((s) => s.currentLevelIndex)
+  const level = isCustomLevel ? customLevel : levels[currentLevelIndex]
 
   const textareaRef = useRef(null)
 

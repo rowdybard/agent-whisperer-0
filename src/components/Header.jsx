@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 import useGameStore from '../store/gameStore'
 
 export default function Header({ onExecute }) {
-  const getCurrentLevel = useGameStore((s) => s.getCurrentLevel)
   const currentLevelIndex = useGameStore((s) => s.currentLevelIndex)
   const levels = useGameStore((s) => s.levels)
   const isLoading = useGameStore((s) => s.isLoading)
@@ -14,8 +13,9 @@ export default function Header({ onExecute }) {
   const totalXP = useGameStore((s) => s.totalXP)
   const completedLevels = useGameStore((s) => s.completedLevels)
   const isCustomLevel = useGameStore((s) => s.isCustomLevel)
+  const customLevel = useGameStore((s) => s.customLevel)
 
-  const level = getCurrentLevel()
+  const level = isCustomLevel ? customLevel : levels[currentLevelIndex]
   const isLastLevel = currentLevelIndex >= levels.length - 1
 
   const difficultyColor = {

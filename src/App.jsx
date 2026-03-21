@@ -13,7 +13,10 @@ export default function App() {
   const setError = useGameStore((s) => s.setError)
   const clearError = useGameStore((s) => s.clearError)
   const userPrompt = useGameStore((s) => s.userPrompt)
-  const getCurrentLevel = useGameStore((s) => s.getCurrentLevel)
+  const isCustomLevel = useGameStore((s) => s.isCustomLevel)
+  const customLevel = useGameStore((s) => s.customLevel)
+  const levels = useGameStore((s) => s.levels)
+  const currentLevelIndex = useGameStore((s) => s.currentLevelIndex)
   const isLoading = useGameStore((s) => s.isLoading)
   const hasWon = useGameStore((s) => s.hasWon)
 
@@ -39,7 +42,7 @@ export default function App() {
   }, [isLoading, hasWon, userPrompt])
 
   const handleExecute = useCallback(async () => {
-    const level = getCurrentLevel()
+    const level = isCustomLevel ? customLevel : levels[currentLevelIndex]
     if (!userPrompt.trim() || isLoading || hasWon) return
 
     clearError()
@@ -83,7 +86,10 @@ export default function App() {
     userPrompt,
     isLoading,
     hasWon,
-    getCurrentLevel,
+    isCustomLevel,
+    customLevel,
+    levels,
+    currentLevelIndex,
     clearError,
     setLoading,
     setAiOutput,

@@ -9,8 +9,11 @@ export default function OutputPane() {
   const hasError = useGameStore((s) => s.hasError)
   const errorMessage = useGameStore((s) => s.errorMessage)
   const setWon = useGameStore((s) => s.setWon)
-  const getCurrentLevel = useGameStore((s) => s.getCurrentLevel)
-  const level = getCurrentLevel()
+  const isCustomLevel = useGameStore((s) => s.isCustomLevel)
+  const customLevel = useGameStore((s) => s.customLevel)
+  const levels = useGameStore((s) => s.levels)
+  const currentLevelIndex = useGameStore((s) => s.currentLevelIndex)
+  const level = isCustomLevel ? customLevel : levels[currentLevelIndex]
 
   const outputRef = useRef(null)
 
