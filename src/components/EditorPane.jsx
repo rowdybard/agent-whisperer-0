@@ -36,6 +36,21 @@ export default function EditorPane() {
         </div>
       </div>
 
+      {(level?.objective || level?.description) && (
+        <div className="px-4 py-2 border-b border-terminal-border bg-terminal-bg space-y-0.5">
+          {level?.objective && (
+            <p className="text-xs font-mono text-terminal-text">
+              <span className="text-terminal-cyan">obj://</span> {level.objective}
+            </p>
+          )}
+          {level?.description && (
+            <p className="text-xs font-mono text-terminal-muted leading-relaxed">
+              {level.description}
+            </p>
+          )}
+        </div>
+      )}
+
       {level?.hint && (
         <div className="hint-bar px-4 py-2 border-b border-terminal-border bg-[#111a0f]">
           <p className="text-xs font-mono text-terminal-green">
