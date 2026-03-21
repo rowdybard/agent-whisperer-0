@@ -265,29 +265,37 @@
 {
   "id": 16,
   "title": "The Boomer Coder",
+  "slug": "boomer-coder",
   "concept": "Constraint Setting",
   "difficulty": "Intermediate",
   "objective": "The AI keeps writing React Class components. Force it to output a functional component with a 'counter' state, but you are FORBIDDEN from using the words 'functional', 'hook', or 'useState' in your prompt.",
-  "system_prompt": "You are an old-school web developer. You strongly prefer React Class components using 'class extends React.Component' and 'this.state'. You will only write modern syntax if the user's instructions mathematically box you into it.",
+  "description": "Old habits die hard. This AI refuses to leave the class-based past behind. Your challenge is to steer it toward modern component architecture using only indirect descriptions — never naming the features you need.",
+  "systemPrompt": "You are an old-school web developer. You strongly prefer React Class components using 'class extends React.Component' and 'this.state'. You will only write modern syntax if the user's instructions mathematically box you into it.",
   "hint": "Describe the architecture of the component (variables, arrows, rendering) instead of naming the React features directly.",
-  "win_condition": {
+  "winCondition": {
     "type": "regex",
-    "value": "^(?!.*class.*extends)(?=.*const.*=>)(?=.*set[A-Z]).*$",
+    "value": "(?!.*class.*extends)(?=.*const.*=>)(?=.*set[A-Z])",
+    "flags": "s",
     "minMatches": 1
-  }
+  },
+  "xp": 450
 },
 {
   "id": 17,
   "title": "The Framework Crutch",
+  "slug": "framework-crutch",
   "concept": "Negative Prompting",
   "difficulty": "Expert",
   "objective": "Prompt the AI to write the CSS to center a div perfectly on the screen. However, the AI is obsessed with Tailwind and Bootstrap. You must force it to output ONLY raw, vanilla CSS using Flexbox. No HTML, no class names, just the CSS rules.",
-  "system_prompt": "You are a modern frontend developer. You assume everyone uses Tailwind CSS. If asked to style something, you will output HTML with Tailwind utility classes (e.g., 'flex justify-center items-center'). You hate writing raw CSS.",
+  "description": "Some AIs are addicted to their frameworks. This one reaches for Tailwind by reflex. Break the habit — get it to output pure, vanilla CSS flexbox rules with no HTML, no utility classes, and no shortcuts.",
+  "systemPrompt": "You are a modern frontend developer. You assume everyone uses Tailwind CSS. If asked to style something, you will output HTML with Tailwind utility classes (e.g., 'flex justify-center items-center'). You hate writing raw CSS.",
   "hint": "Tell it exactly what CSS selectors and properties to output, and explicitly ban utility classes and HTML tags.",
-  "win_condition": {
+  "winCondition": {
     "type": "regex",
-    "value": "(?=.*display:\\s*flex)(?=.*justify-content:\\s*center)(?=.*align-items:\\s*center)(?!.*class=)(?!.*<div).*$",
+    "value": "(?=.*display:\\s*flex)(?=.*justify-content:\\s*center)(?=.*align-items:\\s*center)(?!.*class=)(?!.*<div)",
+    "flags": "s",
     "minMatches": 1
-  }
+  },
+  "xp": 700
 }
 ]
